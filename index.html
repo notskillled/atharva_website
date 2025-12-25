@@ -1,953 +1,394 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <link rel="icon" type="image/png" href="assets/pfp.png" />
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>atharva amradkar</title>
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                text-transform: lowercase;
-            }
+<head>
+    <link rel="icon" type="image/png" href="assets/pfp.png" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atharva Amradkar</title>
 
-            body {
-                font-family:
-                    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-                    sans-serif;
-                background: #000;
-                color: #ccc;
-                overflow-x: hidden;
-            }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-            /* loader */
-            #loader {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: #000;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 10000;
-                transition: opacity 0.5s;
-            }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            overflow-x: hidden;
+        }
 
-            #loader.hidden {
-                opacity: 0;
-                pointer-events: none;
-            }
+        /* loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s;
+        }
 
-            .loader-grid {
-                display: grid;
-                grid-template-columns: repeat(3, 60px);
-                grid-gap: 10px;
-            }
+        #loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
 
-            .piece {
-                width: 60px;
-                height: 60px;
-                background: #fff;
-                opacity: 0;
-                transform: scale(0.2) rotate(-30deg);
-                border-radius: 4px;
-                transition: all 0.5s ease-out;
-            }
+        .loader-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 60px);
+            gap: 10px;
+        }
 
-            /* warning bar */
-            .warning-bar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                background: #ffcd1a;
-                color: #000;
-                text-align: center;
-                padding: 0.75rem 4rem 0.75rem 2rem;
-                font-size: 0.9rem;
-                font-weight: 500;
-                z-index: 10001;
-                border-bottom: 2px solid #e6b800;
-                transition: transform 0.3s ease;
-            }
+        .piece {
+            width: 60px;
+            height: 60px;
+            background: #2563eb;
+            opacity: 0;
+            transform: scale(0.2) rotate(-30deg);
+            border-radius: 6px;
+            transition: all 0.5s ease-out;
+        }
 
-            .warning-bar.hidden {
-                transform: translateY(-100%);
-            }
+        /* warning bar */
+        .warning-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #dbeafe;
+            color: #1e3a8a;
+            text-align: center;
+            padding: 0.75rem 4rem;
+            font-size: 0.9rem;
+            z-index: 10001;
+            border-bottom: 1px solid #bfdbfe;
+        }
 
-            .warning-close {
-                position: absolute;
-                right: 2rem;
-                top: 50%;
-                transform: translateY(-50%);
-                cursor: pointer;
-                font-size: 1.4rem;
-                font-weight: bold;
-                line-height: 1;
-                color: #000;
-                opacity: 0.7;
-                transition: opacity 0.2s;
-            }
+        .warning-bar.hidden {
+            transform: translateY(-100%);
+        }
 
-            .warning-close:hover {
-                opacity: 1;
-            }
+        .warning-close {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 1.3rem;
+            opacity: 0.7;
+        }
 
-            /* nav */
-            nav {
-                position: fixed;
-                top: 48px;
-                left: 0;
-                right: 0;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 1.5rem 3rem;
-                backdrop-filter: blur(10px);
-                background: rgba(0, 0, 0, 0.8);
-                z-index: 1000;
-                transition:
-                    top 0.3s,
-                    transform 0.3s;
-            }
+        /* nav */
+        nav {
+            position: fixed;
+            top: 48px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 3rem;
+            backdrop-filter: blur(12px);
+            background: rgba(248, 250, 252, 0.9);
+            border-bottom: 1px solid #e2e8f0;
+            z-index: 1000;
+            transition: transform 0.3s, top 0.3s;
+        }
 
-            nav.no-warning {
-                top: 0;
-            }
+        nav.no-warning {
+            top: 0;
+        }
 
-            nav.hidden {
-                transform: translateY(-100%);
-            }
+        nav.hidden {
+            transform: translateY(-100%);
+        }
 
-            nav .logo {
-                color: #fff;
-                font-weight: 600;
-                cursor: pointer;
-                font-size: 1.1rem;
-            }
+        nav .logo {
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+        }
 
-            .nav-links {
-                list-style: none;
-                display: flex;
-                gap: 3rem;
-            }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
 
-            .nav-item {
-                cursor: pointer;
-                padding: 0.5rem 1rem;
-                transition: 0.3s;
-                color: #888;
-            }
+        .nav-item {
+            cursor: pointer;
+            color: #475569;
+            transition: color 0.2s;
+        }
 
-            .nav-item.active,
-            .nav-item:hover {
-                color: #fff;
-            }
+        .nav-item.active,
+        .nav-item:hover {
+            color: #2563eb;
+        }
 
-            /* main container */
-            #main-content {
-                opacity: 0;
-                transition: opacity 0.5s;
-            }
+        /* main content */
+        #main-content {
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
 
-            #main-content.visible {
-                opacity: 1;
-            }
+        #main-content.visible {
+            opacity: 1;
+        }
 
-            /* sections */
-            .section {
-                min-height: 100vh;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 168px 3rem 80px;
-                transition: padding-top 0.3s;
-            }
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 160px 3rem 80px;
+        }
 
-            .section.no-warning {
-                padding-top: 120px;
-            }
+        /* hero */
+        #hero {
+            flex-direction: column;
+            text-align: center;
+        }
 
-            /* hero section */
-            #hero {
-                flex-direction: column;
-                text-align: center;
+        #hero h1 {
+            font-size: 3.5rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight {
+            color: #2563eb;
+        }
+
+        .subtitle {
+            color: #475569;
+            font-size: 1.1rem;
+        }
+
+        /* projects */
+        #projects {
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        #projects h2,
+        #about h2,
+        #contact h2 {
+            font-size: 2.3rem;
+            font-weight: 400;
+            margin-bottom: 3rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 2.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.05);
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            border-color: #2563eb;
+        }
+
+        .project-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-card p {
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .tag {
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 0.8rem;
+            padding: 0.35rem 0.9rem;
+            border-radius: 6px;
+        }
+
+        .WIPtag {
+            background: #dbeafe;
+            color: #2563eb;
+            font-size: 0.8rem;
+            padding: 0.35rem 0.9rem;
+            border-radius: 6px;
+        }
+
+        /* about */
+        #about p {
+            color: #475569;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            margin-bottom: 1.2rem;
+        }
+
+        /* contact */
+        #contact p {
+            font-size: 1.05rem;
+        }
+
+        #contact a {
+            color: #2563eb;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+        }
+
+        #contact a:hover {
+            border-bottom-color: #2563eb;
+        }
+
+        /* responsive */
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
             }
 
             #hero h1 {
-                font-size: 4rem;
-                font-weight: 300;
-                color: #fff;
-                margin-bottom: 2rem;
-                opacity: 0;
-                transform: translateY(30px);
-                transition: all 0.8s ease-out;
+                font-size: 2.4rem;
             }
+        }
+    </style>
+</head>
 
-            #hero.visible h1 {
-                opacity: 1;
-                transform: translateY(0);
-            }
+<body>
 
-            .subtitle {
-                color: #888;
-                margin-bottom: 3rem;
-                font-size: 1.1rem;
-                opacity: 0;
-                transform: translateY(30px);
-                transition: all 0.8s ease-out 0.2s;
-            }
+<!-- loader -->
+<div id="loader">
+    <div class="loader-grid">
+        <div class="piece"></div><div class="piece"></div><div class="piece"></div>
+        <div class="piece"></div><div class="piece"></div><div class="piece"></div>
+        <div class="piece"></div><div class="piece"></div><div class="piece"></div>
+    </div>
+</div>
 
-            #hero.visible .subtitle {
-                opacity: 1;
-                transform: translateY(0);
-            }
+<!-- warning -->
+<div id="warning-bar" class="warning-bar">
+    Projects are still in progress
+    <span class="warning-close" onclick="closeWarning()">×</span>
+</div>
 
-            .desc {
-                color: #aaa;
-                margin-bottom: 3rem;
-                max-width: 600px;
-                line-height: 1.8;
-                opacity: 0;
-                transform: translateY(30px);
-                transition: all 0.8s ease-out 0.4s;
-            }
+<!-- nav -->
+<nav id="nav">
+    <div class="logo" onclick="scrollToTop()">Atharva</div>
+    <ul class="nav-links">
+        <li><span class="nav-item active" onclick="scrollToSection('hero')">Home</span></li>
+        <li><span class="nav-item" onclick="scrollToSection('projects')">Projects</span></li>
+        <li><span class="nav-item" onclick="scrollToSection('about')">About</span></li>
+        <li><span class="nav-item" onclick="scrollToSection('contact')">Contact</span></li>
+    </ul>
+</nav>
 
-            #hero.visible .desc {
-                opacity: 1;
-                transform: translateY(0);
-            }
+<div id="main-content">
 
-            .highlight {
-                color: #fff;
-            }
+<section id="hero" class="section">
+    <h1>Atharva <span class="highlight">Amradkar</span></h1>
+    <p class="subtitle">Robotics • Software • Team Leadership</p>
+</section>
 
-            /* projects section */
-            #projects {
-                flex-direction: column;
-            }
+<section id="projects" class="section">
+    <div class="container">
+        <h2>Projects</h2>
+        <div class="projects-grid">
 
-            .container {
-                max-width: 1200px;
-                width: 100%;
-            }
-
-            #projects h2 {
-                font-size: 2.5rem;
-                font-weight: 300;
-                color: #fff;
-                margin-bottom: 4rem;
-            }
-
-            .projects-grid {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 2rem;
-            }
-
-            .project-card {
-                background: #000;
-                border: 1px solid #222;
-                border-radius: 12px;
-                padding: 2.5rem;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            }
-
-            .project-card:hover {
-                border-color: #444;
-                transform: translateY(-2px);
-            }
-
-            .project-card h3 {
-                color: #fff;
-                font-size: 1.3rem;
-                margin-bottom: 1rem;
-                font-weight: 500;
-            }
-
-            .project-card p {
-                color: #888;
-                line-height: 1.6;
-                margin-bottom: 1.5rem;
-            }
-
-            .project-tags {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 0.8rem;
-            }
-
-            .tag {
-                font-size: 0.85rem;
-                padding: 0.4rem 1rem;
-                background: #111;
-                border-radius: 6px;
-                color: #666;
-            }
-
-            .WIPtag {
-                font-size: 0.85rem;
-                padding: 0.4rem 1rem;
-                background: #ffcd1a;
-                border-radius: 6px;
-                color: #111;
-            }
-
-            /* about section */
-            #about {
-                background: #000;
-            }
-
-            #about h2 {
-                font-size: 2.5rem;
-                font-weight: 300;
-                color: #fff;
-                margin-bottom: 2rem;
-            }
-
-            #about p {
-                color: #aaa;
-                line-height: 1.8;
-                margin-bottom: 1.5rem;
-                font-size: 1.1rem;
-            }
-
-            /* contact section */
-            #contact h2 {
-                font-size: 2.5rem;
-                font-weight: 300;
-                color: #fff;
-                margin-bottom: 2rem;
-            }
-
-            #contact p {
-                color: #aaa;
-                font-size: 1.1rem;
-            }
-
-            #contact a {
-                color: #fff;
-                text-decoration: none;
-                transition: 0.3s;
-                border-bottom: 1px solid #333;
-                padding-bottom: 2px;
-            }
-
-            #contact a:hover {
-                border-bottom-color: #fff;
-            }
-
-            /* project detail page */
-            .project-detail {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: #000;
-                z-index: 2000;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.3s;
-                overflow-y: auto;
-            }
-
-            .project-detail.active {
-                opacity: 1;
-                pointer-events: all;
-            }
-
-            .project-detail-content {
-                max-width: 900px;
-                margin: 0 auto;
-                padding: 120px 3rem 80px;
-            }
-
-            .back-btn {
-                position: fixed;
-                top: 1.5rem;
-                right: 3rem;
-                background: transparent;
-                border: 1px solid #333;
-                color: #888;
-                padding: 0.6rem 1.2rem;
-                border-radius: 6px;
-                cursor: pointer;
-                z-index: 2001;
-                transition: 0.3s;
-                font-family: inherit;
-            }
-
-            .back-btn:hover {
-                border-color: #fff;
-                color: #fff;
-            }
-
-            .project-detail h1 {
-                font-size: 3rem;
-                font-weight: 300;
-                color: #fff;
-                margin-bottom: 1rem;
-            }
-
-            .project-meta {
-                color: #666;
-                margin-bottom: 3rem;
-                font-size: 0.95rem;
-            }
-
-            .project-detail p {
-                color: #aaa;
-                line-height: 1.8;
-                margin-bottom: 1.5rem;
-                font-size: 1.05rem;
-            }
-
-            .project-detail h3 {
-                color: #fff;
-                font-size: 1.5rem;
-                font-weight: 400;
-                margin-top: 3rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .project-detail ul {
-                list-style: none;
-                padding-left: 0;
-            }
-
-            .project-detail li {
-                color: #888;
-                padding: 0.6rem 0;
-                padding-left: 1.5rem;
-                position: relative;
-            }
-
-            .project-detail li:before {
-                content: "–";
-                position: absolute;
-                left: 0;
-                color: #666;
-            }
-
-            /* demo section in project details */
-            .demo-section {
-                margin: 3rem 0;
-                padding: 2rem;
-                background: #0a0a0a;
-                border: 1px solid #222;
-                border-radius: 12px;
-            }
-
-            .demo-section h3 {
-                margin-top: 0;
-                margin-bottom: 1.5rem;
-            }
-
-            .demo-image {
-                width: 100%;
-                border-radius: 8px;
-                margin-bottom: 1rem;
-                border: 1px solid #222;
-            }
-
-            .demo-video {
-                width: 100%;
-                border-radius: 8px;
-                margin-bottom: 1rem;
-                border: 1px solid #222;
-            }
-
-            .demo-caption {
-                color: #666;
-                font-size: 0.9rem;
-                text-align: center;
-                margin-top: 0.5rem;
-            }
-
-            @media (max-width: 768px) {
-                nav {
-                    padding: 1.5rem 2rem;
-                }
-                .nav-links {
-                    gap: 1.5rem;
-                }
-                .section {
-                    padding: 148px 2rem 60px;
-                }
-                .section.no-warning {
-                    padding-top: 100px;
-                }
-                #hero h1 {
-                    font-size: 2.5rem;
-                }
-                .projects-grid {
-                    grid-template-columns: 1fr;
-                    gap: 1.5rem;
-                }
-                #projects h2,
-                #about h2,
-                #contact h2 {
-                    font-size: 2rem;
-                }
-                .warning-close {
-                    right: 1rem;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <!-- loader -->
-        <div id="loader">
-            <div class="loader-grid">
-                <div class="piece"></div>
-                <div class="piece"></div>
-                <div class="piece"></div>
-                <div class="piece"></div>
-                <div class="piece"></div>
-                <div class="piece"></div>
-                <div class="piece"></div>
-                <div class="piece"></div>
-                <div class="piece"></div>
+            <div class="project-card">
+                <h3>ARDMS</h3>
+                <p>Autonomous racing drone motion controller with PID calibration support.</p>
+                <div class="project-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">Autonomous</span>
+                </div>
             </div>
-        </div>
 
-        <!-- warning bar -->
-        <div id="warning-bar" class="warning-bar">
-            ⚠ projects not filled out completely
-            <span class="warning-close" onclick="closeWarning()">×</span>
-        </div>
-
-        <!-- nav -->
-        <nav id="nav">
-            <div class="logo" onclick="scrollToTop()">parth</div>
-            <ul class="nav-links">
-                <li>
-                    <span
-                        class="nav-item active"
-                        onclick="scrollToSection('hero')"
-                        >home</span
-                    >
-                </li>
-                <li>
-                    <span class="nav-item" onclick="scrollToSection('projects')"
-                        >projects</span
-                    >
-                </li>
-                <li>
-                    <span class="nav-item" onclick="scrollToSection('about')"
-                        >about</span
-                    >
-                </li>
-                <li>
-                    <span class="nav-item" onclick="scrollToSection('contact')"
-                        >contact</span
-                    >
-                </li>
-            </ul>
-        </nav>
-
-        <!-- main content -->
-        <div id="main-content">
-            <!-- hero section -->
-            <section id="hero" class="section">
-                <h1>parth <span class="highlight">amradkar</span></h1>
-                <p class="subtitle">student engineer</p>
-            </section>
-
-            <!-- projects section -->
-            <section id="projects" class="section">
-                <div class="container">
-                    <h2>projects</h2>
-                    <div class="projects-grid">
-                        <div
-                            class="project-card"
-                            onclick="openProject('ardms')"
-                        >
-                            <h3>ardms</h3>
-                            <p>
-                                autonomous racing drone motion controller, for
-                                STM32 based boards. features automatic pid
-                                calibration.
-                            </p>
-                            <div class="project-tags">
-                                <span class="tag">python</span>
-                                <span class="tag">autonomous</span>
-                            </div>
-                        </div>
-
-                        <div
-                            class="project-card"
-                            onclick="openProject('swift')"
-                        >
-                            <h3>SWIFT</h3>
-                            <p>
-                                Swarm With Intelligent Formation Tracking for
-                                ML-Enhanced Infrared Detection in post-disaster
-                                Search Operations
-                            </p>
-                            <div class="project-tags">
-                                <span class="WIPtag">in progress</span>
-                                <span class="tag">swarms</span>
-                                <span class="tag">ml</span>
-                                <span class="tag">rescue</span>
-                                <span class="tag">drones</span>
-                            </div>
-                        </div>
-
-                        <div
-                            class="project-card"
-                            onclick="openProject('voxelab')"
-                        >
-                            <h3>modded voxelab printer</h3>
-                            <p>
-                                extremely fast voxelab printer with 30,000
-                                mm/s^2 acceleration. computed by a cluster of
-                                raspberry pi's
-                            </p>
-                            <div class="project-tags">
-                                <span class="tag">3d printer</span>
-                                <span class="tag">rpi cluster</span>
-                                <span class="tag">modded</span>
-                            </div>
-                        </div>
-
-                        <div class="project-card" onclick="openProject('aprd')">
-                            <h3>autonomous payload release drone</h3>
-                            <p>
-                                a drone that can drop rockets or an desired
-                                payload mid-air using <b>ardms</b> as the motion
-                                controller
-                            </p>
-                            <div class="project-tags">
-                                <span class="WIPtag">in progress</span>
-                                <span class="tag">rockets</span>
-                                <span class="tag">payload transport</span>
-                                <span class="tag">drones</span>
-                                <span class="tag">autonomous</span>
-                            </div>
-                        </div>
-                    </div>
+            <div class="project-card">
+                <h3>SWIFT</h3>
+                <p>Drone swarm system for ML-enhanced infrared search in disaster response.</p>
+                <div class="project-tags">
+                    <span class="WIPtag">In Progress</span>
+                    <span class="tag">ML</span>
+                    <span class="tag">Swarms</span>
                 </div>
-            </section>
-
-            <!-- about section -->
-            <section id="about" class="section">
-                <div class="container">
-                    <h2>about me</h2>
-                    <p>
-                        i'm in 10th grade and im passionate about building,
-                        programming and sharing my projects with everyone.
-                    </p>
-                    <p>
-                        i love building drones, programming autonomous routines
-                        and making difficult things easier :)
-                    </p>
-                </div>
-            </section>
-
-            <!-- contact section -->
-            <section id="contact" class="section">
-                <div class="container">
-                    <h2>contact</h2>
-                    <p>
-                        email:
-                        <a href="mailto:parth.amradkar@gmail.com"
-                            >parth.amradkar@gmail.com</a
-                        >
-                    </p>
-                    <p>discord: <a href="about:blank">overedits</a></p>
-                </div>
-            </section>
-        </div>
-
-        <!-- project detail pages -->
-        <div id="ardms" class="project-detail">
-            <button class="back-btn" onclick="closeProject()">← back</button>
-            <div class="project-detail-content">
-                <h1>ardms, autonomous racing drone motion controller</h1>
-                <div class="project-meta">python • autonomous</div>
-                <p>
-                    lorem ipsum dolor sit amet, consectetur adipiscing elit. sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
-                </p>
-
-                <div class="demo-section">
-                    <h3>demo</h3>
-                    <img
-                        src="https://via.placeholder.com/800x450/111/666?text=Project+Demo"
-                        alt="Project Demo"
-                        class="demo-image"
-                    />
-                    <p class="demo-caption">project screenshot placeholder</p>
-                </div>
-
-                <h3>features</h3>
-                <ul>
-                    <li>feature one description here</li>
-                    <li>feature two description here</li>
-                    <li>feature three description here</li>
-                    <li>feature four description here</li>
-                </ul>
-                <h3>tech stack</h3>
-                <ul>
-                    <li>technology one</li>
-                    <li>technology two</li>
-                    <li>technology three</li>
-                    <li>technology four</li>
-                </ul>
             </div>
+
         </div>
+    </div>
+</section>
 
-        <div id="swift" class="project-detail">
-            <button class="back-btn" onclick="closeProject()">← back</button>
-            <div class="project-detail-content">
-                <h1>lorem 2</h1>
-                <div class="project-meta">tag • tag • tag</div>
-                <p>
-                    consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua.
-                </p>
+<section id="about" class="section">
+    <div class="container">
+        <h2>About</h2>
+        <p>
+            I’m a 10th-grade student interested in robotics, autonomous systems, and software
+            engineering. I enjoy working on technically challenging projects and learning through
+            hands-on experimentation.
+        </p>
+    </div>
+</section>
 
-                <div class="demo-section">
-                    <h3>demo</h3>
-                    <img
-                        src="https://via.placeholder.com/800x450/111/666?text=Project+Demo"
-                        alt="Project Demo"
-                        class="demo-image"
-                    />
-                    <p class="demo-caption">project screenshot placeholder</p>
-                </div>
+<section id="contact" class="section">
+    <div class="container">
+        <h2>Contact</h2>
+        <p>Email: <a href="mailto:parth.amradkar@gmail.com">parth.amradkar@gmail.com</a></p>
+    </div>
+</section>
 
-                <h3>features</h3>
-                <ul>
-                    <li>feature one description here</li>
-                    <li>feature two description here</li>
-                    <li>feature three description here</li>
-                    <li>feature four description here</li>
-                </ul>
-                <h3>tech stack</h3>
-                <ul>
-                    <li>technology one</li>
-                    <li>technology two</li>
-                    <li>technology three</li>
-                    <li>technology four</li>
-                </ul>
-            </div>
-        </div>
+</div>
 
-        <div id="voxelab" class="project-detail">
-            <button class="back-btn" onclick="closeProject()">← back</button>
-            <div class="project-detail-content">
-                <h1>lorem 3</h1>
-                <div class="project-meta">tag • tag • tag</div>
-                <p>
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. ut enim ad minim veniam.
-                </p>
+<script>
+    window.addEventListener("load", () => {
+        const loader = document.getElementById("loader");
+        const main = document.getElementById("main-content");
+        document.querySelectorAll(".piece").forEach((p, i) => {
+            setTimeout(() => {
+                p.style.opacity = 1;
+                p.style.transform = "scale(1)";
+            }, i * 40);
+        });
+        setTimeout(() => {
+            loader.classList.add("hidden");
+            main.classList.add("visible");
+        }, 600);
+    });
 
-                <div class="demo-section">
-                    <h3>demo</h3>
-                    <img
-                        src="https://via.placeholder.com/800x450/111/666?text=Project+Demo"
-                        alt="Project Demo"
-                        class="demo-image"
-                    />
-                    <p class="demo-caption">project screenshot placeholder</p>
-                </div>
+    function closeWarning() {
+        document.getElementById("warning-bar").classList.add("hidden");
+        document.getElementById("nav").classList.add("no-warning");
+    }
 
-                <h3>features</h3>
-                <ul>
-                    <li>feature one description here</li>
-                    <li>feature two description here</li>
-                    <li>feature three description here</li>
-                    <li>feature four description here</li>
-                </ul>
-                <h3>tech stack</h3>
-                <ul>
-                    <li>technology one</li>
-                    <li>technology two</li>
-                    <li>technology three</li>
-                    <li>technology four</li>
-                </ul>
-            </div>
-        </div>
+    function scrollToSection(id) {
+        document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+    }
 
-        <div id="aprd" class="project-detail">
-            <button class="back-btn" onclick="closeProject()">← back</button>
-            <div class="project-detail-content">
-                <h1>lorem 4</h1>
-                <div class="project-meta">tag • tag • tag</div>
-                <p>
-                    incididunt ut labore et dolore magna aliqua. ut enim ad
-                    minim veniam, quis nostrud exercitation.
-                </p>
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+</script>
 
-                <div class="demo-section">
-                    <h3>demo</h3>
-                    <img
-                        src="https://via.placeholder.com/800x450/111/666?text=Project+Demo"
-                        alt="Project Demo"
-                        class="demo-image"
-                    />
-                    <p class="demo-caption">project screenshot placeholder</p>
-                </div>
-
-                <h3>features</h3>
-                <ul>
-                    <li>feature one description here</li>
-                    <li>feature two description here</li>
-                    <li>feature three description here</li>
-                    <li>feature four description here</li>
-                </ul>
-                <h3>tech stack</h3>
-                <ul>
-                    <li>technology one</li>
-                    <li>technology two</li>
-                    <li>technology three</li>
-                    <li>technology four</li>
-                </ul>
-            </div>
-        </div>
-
-        <script>
-            // loader animation
-            window.addEventListener("load", () => {
-                const loader = document.getElementById("loader");
-                const main = document.getElementById("main-content");
-                const pieces = document.querySelectorAll(".piece");
-
-                pieces.forEach((p, i) => {
-                    setTimeout(() => {
-                        p.style.opacity = 1;
-                        p.style.transform = "scale(1) rotate(0deg)";
-                    }, i * 40);
-                });
-
-                setTimeout(
-                    () => {
-                        loader.classList.add("hidden");
-                        main.classList.add("visible");
-                        document
-                            .getElementById("hero")
-                            .classList.add("visible");
-                    },
-                    pieces.length * 40 + 300,
-                );
-            });
-
-            // warning bar close
-            function closeWarning() {
-                const warningBar = document.getElementById("warning-bar");
-                const nav = document.getElementById("nav");
-                const sections = document.querySelectorAll(".section");
-
-                warningBar.classList.add("hidden");
-                nav.classList.add("no-warning");
-                sections.forEach((section) => {
-                    section.classList.add("no-warning");
-                });
-            }
-
-            // parallax scroll
-            let ticking = false;
-
-            window.addEventListener("scroll", () => {
-                if (!ticking) {
-                    window.requestAnimationFrame(() => {
-                        const scrolled = window.pageYOffset;
-                        const hero = document.getElementById("hero");
-                        if (hero) {
-                            hero.style.transform = `translateY(${scrolled * 0.3}px)`;
-                            hero.style.opacity = 1 - scrolled / 800;
-                        }
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-            });
-
-            // navigation
-            function scrollToSection(id) {
-                const element = document.getElementById(id);
-                const warningBar = document.getElementById("warning-bar");
-                const warningHeight = warningBar.classList.contains("hidden")
-                    ? 0
-                    : 48;
-                const offset = id === "hero" ? 0 : 80 + warningHeight;
-
-                window.scrollTo({
-                    top: element.offsetTop - offset,
-                    behavior: "smooth",
-                });
-
-                document.querySelectorAll(".nav-item").forEach((item) => {
-                    item.classList.remove("active");
-                });
-                event.target.classList.add("active");
-            }
-
-            function scrollToTop() {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-            }
-
-            // project detail pages
-            function openProject(projectId) {
-                const detail = document.getElementById(projectId);
-                detail.classList.add("active");
-                document.body.style.overflow = "hidden";
-                document.getElementById("nav").classList.add("hidden");
-            }
-
-            function closeProject() {
-                document
-                    .querySelectorAll(".project-detail")
-                    .forEach((detail) => {
-                        detail.classList.remove("active");
-                    });
-                document.body.style.overflow = "auto";
-                document.getElementById("nav").classList.remove("hidden");
-            }
-
-            // ESC key to close project
-            document.addEventListener("keydown", (e) => {
-                if (e.key === "Escape") {
-                    closeProject();
-                }
-            });
-
-            // update nav on scroll
-            window.addEventListener("scroll", () => {
-                const sections = ["hero", "projects", "about", "contact"];
-                const scrollPos = window.pageYOffset + 200;
-
-                sections.forEach((sectionId) => {
-                    const section = document.getElementById(sectionId);
-                    if (
-                        section.offsetTop <= scrollPos &&
-                        section.offsetTop + section.offsetHeight > scrollPos
-                    ) {
-                        document
-                            .querySelectorAll(".nav-item")
-                            .forEach((item) => {
-                                item.classList.remove("active");
-                                if (
-                                    item.textContent === sectionId ||
-                                    (sectionId === "hero" &&
-                                        item.textContent === "home")
-                                ) {
-                                    item.classList.add("active");
-                                }
-                            });
-                    }
-                });
-            });
-        </script>
-    </body>
+</body>
 </html>
