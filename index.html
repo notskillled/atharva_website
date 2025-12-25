@@ -201,7 +201,7 @@
 
             <div class="quick-links">
                 <a href="#" onclick="copyEmail(event)">Email</a>
-                <a href="#">GitHub</a>
+                <a href="#" onclick="copyDiscord(event)">Discord</a>
             </div>
         </div>
 
@@ -250,6 +250,18 @@
         const email = "tekco.305@gmail.com";
 
         navigator.clipboard.writeText(email).then(() => {
+            const originalText = e.target.textContent;
+            e.target.textContent = "Copied!";
+            setTimeout(() => {
+                e.target.textContent = originalText;
+            }, 1200);
+        });
+    }
+    function copyDiscord(e) {
+        e.preventDefault();
+        const discord = "notskillled";
+
+        navigator.clipboard.writeText(discord).then(() => {
             const originalText = e.target.textContent;
             e.target.textContent = "Copied!";
             setTimeout(() => {
