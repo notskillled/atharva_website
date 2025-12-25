@@ -191,16 +191,16 @@
         <!-- LEFT -->
         <div class="intro">
             <h1>Atharva <span class="highlight">Amradkar</span></h1>
-            <div class="subtitle">Robotics • Autonomous Systems • Software</div>
+            <div class="subtitle">Robotics • Building • Engineering</div>
 
             <p>
-                10th-grade student focused on robotics, drones, and autonomous systems.
+                10th-grade student focused on robotics, team management, CAD, Track/Cross Country, and learning.
                 Seeking opportunities with engineering clubs and technical teams to gain
-                hands-on experience.
+                hands-on experience, develop personal relationships, and learn key technical skills.
             </p>
 
             <div class="quick-links">
-                <a href="mailto:parth.amradkar@gmail.com">Email</a>
+                <a href="#" onclick="copyEmail(event)">Email</a>
                 <a href="#">GitHub</a>
             </div>
         </div>
@@ -244,6 +244,19 @@
 
     </div>
 </main>
+<script>
+    function copyEmail(e) {
+        e.preventDefault();
+        const email = "parth.amradkar@gmail.com";
 
+        navigator.clipboard.writeText(email).then(() => {
+            const originalText = e.target.textContent;
+            e.target.textContent = "Copied!";
+            setTimeout(() => {
+                e.target.textContent = originalText;
+            }, 1200);
+        });
+    }
+</script>
 </body>
 </html>
