@@ -228,6 +228,49 @@
             margin-top: 500px;
         }
 
+        .project-detail {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 250, 252, 0.95);
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            overflow-y: auto;
+            transition: opacity 0.3s ease;
+            padding: 3rem;
+        }
+
+        .project-detail.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .project-detail-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            z-index: 2001;
+        }
+
+        .back-btn:hover {
+            background: #1e40af;
+        }
+
     </style>
 </head>
 
@@ -387,6 +430,51 @@
         });
     });s
 </script>
+
+<!-- Project Detail Pages -->
+<div id="hackathon-detail" class="project-detail">
+    <button class="back-btn" onclick="closeProject()">← Back</button>
+    <div class="project-detail-content">
+        <h1>Hackathon – Autonomous Racing Drone</h1>
+        <p><strong>Description:</strong> Autonomous racing drone motion controller with PID calibration and advanced motion algorithms.</p>
+
+        <h3>Features</h3>
+        <ul>
+            <li>Automatic PID calibration</li>
+            <li>High-speed autonomous control</li>
+            <li>Python-based algorithms</li>
+        </ul>
+
+        <h3>Tech Stack</h3>
+        <ul>
+            <li>Python</li>
+            <li>STM32</li>
+            <li>Robotics sensors & hardware</li>
+        </ul>
+    </div>
+</div>
+
+<div id="wandr-detail" class="project-detail">
+    <button class="back-btn" onclick="closeProject()">← Back</button>
+    <div class="project-detail-content">
+        <h1>Wandr – Drone Swarm System</h1>
+        <p><strong>Description:</strong> Drone swarm system for ML-enhanced infrared disaster response.</p>
+
+        <h3>Features</h3>
+        <ul>
+            <li>Swarm coordination</li>
+            <li>Infrared detection</li>
+            <li>ML algorithms</li>
+        </ul>
+
+        <h3>Tech Stack</h3>
+        <ul>
+            <li>Python</li>
+            <li>Machine Learning</li>
+            <li>Drones / Robotics</li>
+        </ul>
+    </div>
+</div>
 
 </body>
 </html>
