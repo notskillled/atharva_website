@@ -475,6 +475,33 @@
         </ul>
     </div>
 </div>
+<script>
+    // Open project
+    const projects = document.querySelectorAll(".projects-grid .project-card");
+    projects.forEach((project) => {
+        project.addEventListener("click", () => {
+            const projectName = project.querySelector("h3").textContent.toLowerCase().replace(/\s/g, "-");
+            const detail = document.getElementById(`${projectName}-detail`);
+            if(detail){
+                detail.classList.add("active");
+                document.body.style.overflow = "hidden"; // prevent background scroll
+            }
+        });
+    });
+
+    // Close project
+    function closeProject() {
+        document.querySelectorAll(".project-detail").forEach(detail => {
+            detail.classList.remove("active");
+        });
+        document.body.style.overflow = "auto";
+    }
+
+    // ESC key closes project
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeProject();
+    });
+</script>
 
 </body>
 </html>
