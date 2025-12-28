@@ -257,7 +257,14 @@
             </p>
 
             <div class="quick-links">
-                <a href="#" onclick="copyEmail(event)">Email</a>
+                <a href="#" id="email-link" aria-label="Copy email" class="social-link">
+                    <!-- Email / Mail SVG -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 5h18a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1zm0 2v.01L12 13l9-5.99V7H3zm18 10V9.24l-8.47 5.65a1 1 0 01-1.06 0L3 9.24V17h18z"/>
+                    </svg>
+                </a>
+
                 <a href="#" id="discord-link" aria-label="Copy Discord username">
                         <!-- Discord SVG Icon -->
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
@@ -350,6 +357,21 @@
             discordLink.style.color = "#16a34a"; // green
             setTimeout(() => {
                 discordLink.style.color = "";
+            }, 1200);
+        });
+    });
+</script>
+<script>
+    const emailLink = document.getElementById("email-link");
+
+    emailLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        const email = "your.email@gmail.com"; // replace
+
+        navigator.clipboard.writeText(email).then(() => {
+            emailLink.style.color = "#16a34a"; // green feedback
+            setTimeout(() => {
+                emailLink.style.color = "";
             }, 1200);
         });
     });
