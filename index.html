@@ -234,13 +234,15 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(248, 250, 252, 0.95);
+            background: rgba(15, 23, 42, 0.7); /* semi-transparent dark overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
             z-index: 2000;
             opacity: 0;
             pointer-events: none;
-            overflow-y: auto;
             transition: opacity 0.3s ease;
-            padding: 3rem;
+            padding: 2rem;
         }
 
         .project-detail.active {
@@ -249,27 +251,59 @@
         }
 
         .project-detail-content {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            width: 100%;
             max-width: 800px;
-            margin: 0 auto;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .project-detail-content h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #0f172a;
+        }
+
+        .project-detail-content h3 {
+            font-size: 1.1rem;
+            margin-top: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #2563eb;
+        }
+
+        .project-detail-content p, 
+        .project-detail-content li {
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .project-detail-content ul {
+            padding-left: 1.2rem;
         }
 
         .back-btn {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
             background: #2563eb;
             color: white;
             border: none;
             padding: 0.5rem 1rem;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-family: inherit;
-            z-index: 2001;
+            transition: background 0.2s;
         }
 
         .back-btn:hover {
             background: #1e40af;
         }
+
 
     </style>
 </head>
