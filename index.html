@@ -304,6 +304,68 @@
             background: #1e40af;
         }
 
+        /* PROCESS SECTIONS */
+        .process-section {
+            margin-top: 1.8rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .process-section h3 {
+            font-size: 1.15rem;
+            font-weight: 500;
+            margin-bottom: 0.6rem;
+            color: #2563eb;
+        }
+
+        .process-section p {
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.65;
+            margin-bottom: 0.8rem;
+        }
+
+        /* IMAGE GRID */
+        .process-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .process-image {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .process-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .process-image span {
+            display: block;
+            padding: 0.5rem 0.7rem;
+            font-size: 0.8rem;
+            color: #475569;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        /* STEP LIST */
+        .process-steps {
+            margin-top: 0.8rem;
+            padding-left: 1.2rem;
+        }
+
+        .process-steps li {
+            font-size: 0.95rem;
+            color: #475569;
+            margin-bottom: 0.4rem;
+        }
 
     </style>
 </head>
@@ -465,87 +527,81 @@
     });s
 </script>
 
-<!-- Project Detail Pages -->
 <div id="hackathon-detail" class="project-detail">
-    <button class="back-btn" onclick="closeProject()">← Back</button>
     <div class="project-detail-content">
-        <h1>Hackathon – The Mosquito Guard </h1>
-        <p><strong>Description:</strong> A low-cost, battery-powered ESP32 sensor system that monitors environmental conditions temperature, humidity made for communities heavily impacted by mosquito-borne diseases.</p>
-        <h3>Cause</h3>
-        <ul>
-            <li>Mosquitoes cause at least 2.7 million deaths every year</li>
-            <li>About 500 million cases of mosquito-borne diseases occur annually</li>
-            <li>90% of mosquito-borne illnesses occur in Africa</li>
-        </ul>
-        <h3>Features</h3>
-        <ul>
-            <li>$30 Build that targets real time mosquito habitat detection.</li>
-            <li>Accurately detects areas favorable for mosquito breeding</li>
-            <li>Python-based algorithms</li>
-        </ul>
+        <button class="back-btn" onclick="closeProject()">← Back</button>
 
-        <h3>Tech Stack</h3>
-        <ul>
-            <li>Python</li>
-            <li>ESP32 + Sensors: DHT22/BME280 for temp & humidity</li>
-            <li>Website + Data Analysis</li>
+        <h1>Autonomous Racing Drone Controller</h1>
+        <p>
+            A motion controller designed for high-speed autonomous racing drones
+            with automatic PID calibration.
+        </p>
 
-        </ul>
-        <h3>Impact</h3>
-        <ul>
-            <li>Mosquitoes are more than just a nuisance—they pose serious health risks by spreading diseases such as malaria, dengue, and Zika. Identifying areas with high mosquito activity is crucial to preventing bites, reducing disease transmission, and protecting communities. Our Mosquito Guard system detects and maps mosquito hotspots, enabling targeted interventions and smarter prevention strategies.</li>
-        </ul>
+        <!-- PROBLEM -->
+        <div class="process-section">
+            <h3>Problem</h3>
+            <p>
+                Manual PID tuning was slow and inconsistent, making rapid testing
+                and iteration difficult during competitions.
+            </p>
+        </div>
+
+        <!-- DESIGN -->
+        <div class="process-section">
+            <h3>Design & Planning</h3>
+            <ul class="process-steps">
+                <li>Researched existing PID tuning methods</li>
+                <li>Designed calibration routine for STM32</li>
+                <li>Defined performance metrics (stability & response time)</li>
+            </ul>
+
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/pid-diagram.png" alt="PID control diagram">
+                    <span>Initial PID control model</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- BUILD -->
+        <div class="process-section">
+            <h3>Build & Implementation</h3>
+            <p>
+                Implemented the control loop in Python with real-time sensor feedback.
+            </p>
+
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/code-snippet.png" alt="Controller code">
+                    <span>Control loop implementation</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/drone-build.jpg" alt="Drone build">
+                    <span>Drone hardware integration</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TESTING -->
+        <div class="process-section">
+            <h3>Testing & Iteration</h3>
+            <ul class="process-steps">
+                <li>Bench testing for stability</li>
+                <li>Flight tests with logged telemetry</li>
+                <li>Iterated PID gains based on response curves</li>
+            </ul>
+        </div>
+
+        <!-- RESULT -->
+        <div class="process-section">
+            <h3>Results & Takeaways</h3>
+            <p>
+                Reduced tuning time by ~60% and achieved smoother autonomous flight.
+                Learned how control theory translates to real-world hardware.
+            </p>
+        </div>
     </div>
 </div>
-
-<div id="wandr-detail" class="project-detail">
-    <button class="back-btn" onclick="closeProject()">← Back</button>
-    <div class="project-detail-content">
-        <h1>Wandr – Drone Swarm System</h1>
-        <p><strong>Description:</strong> Drone swarm system for ML-enhanced infrared disaster response.</p>
-
-        <h3>Features</h3>
-        <ul>
-            <li>Swarm coordination</li>
-            <li>Infrared detection</li>
-            <li>ML algorithms</li>
-        </ul>
-
-        <h3>Tech Stack</h3>
-        <ul>
-            <li>Python</li>
-            <li>Machine Learning</li>
-            <li>Drones / Robotics</li>
-        </ul>
-    </div>
-</div>
-<script>
-    // Open project
-    const projects = document.querySelectorAll(".projects-grid .project-card");
-    projects.forEach((project) => {
-        project.addEventListener("click", () => {
-            const projectName = project.querySelector("h3").textContent.toLowerCase().replace(/\s/g, "-");
-            const detail = document.getElementById(`${projectName}-detail`);
-            if(detail){
-                detail.classList.add("active");
-                document.body.style.overflow = "hidden"; // prevent background scroll
-            }
-        });
-    });
-
-    // Close project
-    function closeProject() {
-        document.querySelectorAll(".project-detail").forEach(detail => {
-            detail.classList.remove("active");
-        });
-        document.body.style.overflow = "auto";
-    }
-
-    // ESC key closes project
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeProject();
-    });
-</script>
 
 </body>
 </html>
