@@ -93,7 +93,6 @@
             font-size: 2.5rem;
         }
 
-
         .intro p {
             color: #475569;
             line-height: 1.7;
@@ -101,9 +100,12 @@
             margin-bottom: 1.5rem;
         }
 
+        .quick-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
         .quick-links a {
-            margin-right: 1.5rem;
-            margin-top: 200px;
             text-decoration: none;
             color: #2563eb;
             font-weight: 500;
@@ -128,6 +130,7 @@
             border-radius: 12px;
             padding: 1.5rem;
             transition: all 0.25s ease;
+            cursor: pointer;
         }
 
         .project-card:hover {
@@ -168,30 +171,6 @@
             border-radius: 6px;
         }
 
-        /* responsive */
-        @media (max-width: 900px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-            }
-
-            main {
-                align-items: flex-start;
-                padding-top: 110px;
-            }
-        }
-
-        #discord-link {
-            display: inline-flex;
-            align-items: center;
-            color: #2563eb;
-            transition: color 0.2s, transform 0.2s;
-        }
-
-        #discord-link:hover {
-            color: #1e40af; 
-            transform: translateY(-1px);
-        }
-
         .profile-pic {
             width: 110px;
             height: 110px;
@@ -199,6 +178,7 @@
             border-radius: 50%;
             overflow: hidden;
             border: 2px solid #e2e8f0;
+            transition: border-color 0.2s;
         }
 
         .profile-pic img {
@@ -207,7 +187,6 @@
             object-fit: cover;
         }
 
-        /* Optional subtle hover */
         .profile-pic:hover {
             border-color: #2563eb;
         }
@@ -224,17 +203,13 @@
             transform: translateY(-1px);
         }
 
-        .margin {
-            margin-top: 500px;
-        }
-
         .project-detail {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 23, 42, 0.7); /* semi-transparent dark overlay */
+            background: rgba(15, 23, 42, 0.7);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -260,6 +235,7 @@
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: relative;
         }
 
         .project-detail-content h1 {
@@ -287,9 +263,9 @@
         }
 
         .back-btn {
-            position: absolute;
+            position: sticky;
             top: 1rem;
-            right: 1rem;
+            float: right;
             background: #2563eb;
             color: white;
             border: none;
@@ -298,13 +274,14 @@
             cursor: pointer;
             font-family: inherit;
             transition: background 0.2s;
+            z-index: 10;
+            margin-bottom: 1rem;
         }
 
         .back-btn:hover {
             background: #1e40af;
         }
 
-        /* PROCESS SECTIONS */
         .process-section {
             margin-top: 1.8rem;
             padding-top: 1.2rem;
@@ -325,7 +302,6 @@
             margin-bottom: 0.8rem;
         }
 
-        /* IMAGE GRID */
         .process-images {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -338,6 +314,13 @@
             border: 1px solid #e2e8f0;
             border-radius: 10px;
             overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .process-image:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .process-image img {
@@ -346,27 +329,102 @@
             display: block;
         }
 
-    .process-image span {
-        display: block;
-        padding: 0.5rem 0.7rem;
-        font-size: 0.8rem;
-        color: #475569;
-        background: #f8fafc;
-        border-top: 1px solid #e2e8f0;
-    }
+        .process-image span {
+            display: block;
+            padding: 0.5rem 0.7rem;
+            font-size: 0.8rem;
+            color: #475569;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
 
-    /* STEP LIST */
-    .process-steps {
-        margin-top: 0.8rem;
-        padding-left: 1.2rem;
-    }
+        .process-steps {
+            margin-top: 0.8rem;
+            padding-left: 1.2rem;
+        }
 
-    .process-steps li {
-        font-size: 0.95rem;
-        color: #475569;
-        margin-bottom: 0.4rem;
-    }
+        .process-steps li {
+            font-size: 0.95rem;
+            color: #475569;
+            margin-bottom: 0.4rem;
+        }
 
+        /* Image Lightbox */
+        .image-lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 2rem;
+        }
+
+        .image-lightbox.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .image-lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+
+        .image-lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: background 0.2s;
+            z-index: 3001;
+        }
+
+        .image-lightbox-close:hover {
+            background: #1e40af;
+        }
+
+        .image-lightbox-caption {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            color: #0f172a;
+            font-size: 0.95rem;
+            max-width: 80%;
+            text-align: center;
+        }
+
+        /* responsive */
+        @media (max-width: 900px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            main {
+                align-items: flex-start;
+                padding-top: 110px;
+            }
+        }
     </style>
 </head>
 
@@ -374,8 +432,6 @@
 
 <nav>
     <div class="logo">Atharva</div>
-    
-
     <ul class="nav-links">
         <li class="nav-item">Projects</li>
         <li class="nav-item">Contact</li>
@@ -384,164 +440,150 @@
 
 <main>
     <div class="hero-grid">
-        <div class="project-card">
-        <!-- LEFT -->
-        <div class="intro">
-            <h1> <div class="profile-pic">
-                <img src="profile.jpg" alt="Atharva – Robotics & Engineering">
-            </div><span class="title">Atharva Amradkar</span> 
-            
-            <div class="subtitle">Robotics • Building • Engineering</div>
+        <div class="intro project-card">
+            <div class="profile-pic">
+                <img src="https://raw.githubusercontent.com/notskillled/atharva_website/main/assets/IMG_7389.jpg" alt="Atharva – Robotics & Engineering">
+            </div>
+            <h1>
+                <span class="title">Atharva Amradkar</span> 
+                <div class="subtitle">Robotics • Building • Engineering</div>
             </h1>
 
             <p>
-                By leading and organizing a highly competitive robotics team in one of the toughest regions, I helped build a focused, high-performing group that went on to win a Robotics State Championship. I’m a 10th-grade student with strong experience in robotics, CAD, and team building/management, complemented by strong public speaking skills and a Top 5 finish at DECA. I’m also a chameleon hackathon winner, recognized for developing effective technical solutions under time constraints. I’m seeking opportunities with engineering clubs and technical teams to apply my leadership, communication, and engineering skills while continuing to grow through hands-on experience.
+                By leading and organizing a highly competitive robotics team in one of the toughest regions, I helped build a focused, high-performing group that went on to win a Robotics State Championship. I'm a 10th-grade student with strong experience in robotics, CAD, and team building/management, complemented by strong public speaking skills and a Top 5 finish at DECA. I'm also a chameleon hackathon winner, recognized for developing effective technical solutions under time constraints. I'm seeking opportunities with engineering clubs and technical teams to apply my leadership, communication, and engineering skills while continuing to grow through hands-on experience.
             </p>
             
             <div class="quick-links">
                 <a href="#" id="email-link" aria-label="Copy email" class="social-link">
-                    <!-- Email / Mail SVG -->
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path d="M3 5h18a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1zm0 2v.01L12 13l9-5.99V7H3zm18 10V9.24l-8.47 5.65a1 1 0 01-1.06 0L3 9.24V17h18z"/>
                     </svg>
                 </a>
 
-                <a href="#" id="discord-link" aria-label="Copy Discord username">
-                        <!-- Discord SVG Icon -->
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg">
+                <a href="#" id="discord-link" aria-label="Copy Discord username" class="social-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path d="M20.317 4.369A19.791 19.791 0 0015.949 3c-.209.375-.443.864-.608 1.249a18.27 18.27 0 00-5.682 0A12.64 12.64 0 008.05 3a19.736 19.736 0 00-4.37 1.369C.533 9.045-.32 13.579.099 18.057A19.9 19.9 0 006.16 21c.486-.657.919-1.357 1.297-2.1a12.73 12.73 0 01-2.043-.987c.172-.125.344-.256.506-.388a13.93 13.93 0 0012.16 0c.162.132.334.263.506.388-.65.39-1.33.724-2.043.987.378.743.81 1.443 1.297 2.1a19.9 19.9 0 006.062-2.943c.5-5.177-.855-9.687-3.585-13.688zM8.02 15.331c-1.183 0-2.156-1.085-2.156-2.419 0-1.333.955-2.418 2.156-2.418 1.202 0 2.174 1.093 2.156 2.418 0 1.334-.954 2.419-2.156 2.419zm7.974 0c-1.183 0-2.156-1.085-2.156-2.419 0-1.333.955-2.418 2.156-2.418 1.202 0 2.174 1.093 2.156 2.418 0 1.334-.954 2.419-2.156 2.419z"/>
                     </svg>
                 </a>
-                <a href="https://www.instagram.com/42824a_eternity"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Team Instagram"
-                    class="social-link">
-                    
-                        <!-- Instagram SVG -->
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" 
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7.75 2h8.5C19.44 2 22 4.56 22 7.75v8.5C22 19.44 19.44 22 16.25 22h-8.5C4.56 22 2 19.44 2 16.25v-8.5C2 4.56 4.56 2 7.75 2zm0 1.5C5.4 3.5 3.5 5.4 3.5 7.75v8.5c0 2.35 1.9 4.25 4.25 4.25h8.5c2.35 0 4.25-1.9 4.25-4.25v-8.5c0-2.35-1.9-4.25-4.25-4.25h-8.5z"/>
-                            <path d="M12 7a5 5 0 100 10 5 5 0 000-10zm0 1.5a3.5 3.5 0 110 7 3.5 3.5 0 010-7z"/>
-                            <circle cx="17.25" cy="6.75" r="1.25"/>
-                        </svg>
+
+                <a href="https://github.com/notskillled" target="_blank" rel="noopener noreferrer" aria-label="Visit GitHub profile" class="social-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                    </svg>
                 </a>
-           
-            </div>
+
+                <a href="https://www.instagram.com/42824a_eternity" target="_blank" rel="noopener noreferrer" aria-label="Team Instagram" class="social-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.75 2h8.5C19.44 2 22 4.56 22 7.75v8.5C22 19.44 19.44 22 16.25 22h-8.5C4.56 22 2 19.44 2 16.25v-8.5C2 4.56 4.56 2 7.75 2zm0 1.5C5.4 3.5 3.5 5.4 3.5 7.75v8.5c0 2.35 1.9 4.25 4.25 4.25h8.5c2.35 0 4.25-1.9 4.25-4.25v-8.5c0-2.35-1.9-4.25-4.25-4.25h-8.5z"/>
+                        <path d="M12 7a5 5 0 100 10 5 5 0 000-10zm0 1.5a3.5 3.5 0 110 7 3.5 3.5 0 010-7z"/>
+                        <circle cx="17.25" cy="6.75" r="1.25"/>
+                    </svg>
+                </a>
             </div>
         </div>
 
-        <!-- RIGHT -->
         <div class="projects">
             <h2>Featured Projects</h2>
-
             <div class="projects-grid">
-
-                <div class="project-card">
+                <div class="project-card" data-project="hackathon">
                     <h3>Hackathon</h3>
-                    <p>Autonomous racing drone motion controller with PID calibration.</p>
+                    <p>Develop a Mosquiot Guard to help communities heavily impacted by mosquito-borne diseases.</p>
                     <div class="project-tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">Autonomous</span>
+                        <span class="WIPtag">First Place</span>
+                        <span class="tag">Research</span>
+                        <span class="tag">Sensors</span>
+                        <span class="tag">Designing</span>
                     </div>
                 </div>
 
-                <div class="project-card">
+                <div class="project-card" data-project="wandr">
                     <h3>Wandr</h3>
-                    <p>Drone swarm system for ML-enhanced infrared disaster response.</p>
+                    <p>A.I Travel App designed to make planing smarter, not harder.</p>
                     <div class="project-tags">
                         <span class="WIPtag">In Progress</span>
-                        <span class="tag">ML</span>
-                        <span class="tag">Swarms</span>
+                        <span class="tag">Buisness</span>
+                        <span class="tag">Website</span>
                     </div>
                 </div>
 
-                <div class="project-card">
+                <div class="project-card" data-project="puzzle-box">
                     <h3>Puzzle Box</h3>
-                    <p>High-acceleration 3D printer driven by a Raspberry Pi cluster.</p>
+                    <p>TSA Project, Developing A fun little Puzzle Box.</p>
                     <div class="project-tags">
+                        <span class="WIPtag">In Progress</span>
                         <span class="tag">3D Printing</span>
-                        <span class="tag">Raspberry Pi</span>
+                        <span class="tag">Laser Cutter</span>
+
                     </div>
                 </div>
 
-                <div class="project-card">
-                    <h4>Learing how to CAD</h4>
-                    <p>High-acceleration 3D printer driven by a Raspberry Pi cluster.</p>
+                <div class="project-card" data-project="learning-cad">
+                    <h3>Learning CAD</h3>
+                    <p>Journey through learning CAD design and 3D modeling.</p>
                     <div class="project-tags">
-                        <span class="tag">3D Printing</span>
-                        <span class="tag">Raspberry Pi</span>
+                        <span class="WIPtag">In Progress - Always Learning </span>
+                        <span class="tag">CAD</span>
+                        <span class="tag">Design</span>
+                    </div>
                 </div>
+
+                <div class="project-card" data-project="robotics">
+                    <h3>Robotics</h3>
+                    <p>Journey Of My Passion of Robotics.</p>
+                    <div class="project-tags">
+                        <span class="WIPtag">In Progress</span>
+                        <span class="tag">CAD</span>
+                        <span class="tag">Design</span>
+                        <span class="WIPtag">Team Development</span>
+                        <span class="WIPtag">Leadership Development</span>
+                    </div>
+                </div>
+
+                <div class="project-card" data-project="research-project">
+                    <h3>Research Project</h3>
+                    <p>Develop a 3D printed hand that uses brainwaves or hand movement to mimmic motion</p>
+                    <div class="project-tags">
+                        <span class="WIPtag">In Progress</span>
+                        <span class="tag">CAD</span>
+                        <span class="tag">Design</span>
+                        <span class="tag">Hardwork</span>
+                        <span class="WIPtag">New Technical Skills</span>
+                        <span class="tag">Time Management</span>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 </main>
-<script>
-    function copyEmail(e) {
-        e.preventDefault();
-        const email = "tekco.305@gmail.com";
 
-        navigator.clipboard.writeText(email).then(() => {
-            const originalText = e.target.textContent;
-            e.target.textContent = "Copied!";
-            setTimeout(() => {
-                e.target.textContent = originalText;
-            }, 1200);
-        });
-    }
-
-    
-</script>
-<script>
-    const discordLink = document.getElementById("discord-link");
-
-    discordLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        const discord = "notskillled"; // your username
-        
-        navigator.clipboard.writeText(discord).then(() => {
-            discordLink.style.color = "#16a34a"; // green
-            setTimeout(() => {
-                discordLink.style.color = "";
-            }, 1200);
-        });
-    });
-</script>
-<script>
-    const emailLink = document.getElementById("email-link");
-
-    emailLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        const email = "tekco.305@gmail.com"; // replace
-
-        navigator.clipboard.writeText(email).then(() => {
-            emailLink.style.color = "#16a34a"; // green feedback
-            setTimeout(() => {
-                emailLink.style.color = "";
-            }, 1200);
-        });
-    });s
-</script>
+<!-- Image Lightbox -->
+<div id="image-lightbox" class="image-lightbox">
+    <button class="image-lightbox-close" onclick="closeLightbox()">✕ Close</button>
+    <img id="lightbox-img" src="" alt="">
+    <div class="image-lightbox-caption" id="lightbox-caption"></div>
+</div>
 
 <!-- Project Detail Pages -->
 <div id="hackathon-detail" class="project-detail">
-    <button class="back-btn" onclick="closeProject()">← Back</button>
     <div class="project-detail-content">
-        <h1>Hackathon – The Mosquito Guard </h1>
-        <p><strong>Description:</strong> A low-cost, battery-powered ESP32 sensor system that monitors environmental conditions temperature, humidity made for communities heavily impacted by mosquito-borne diseases.</p>
-        <h3>Cause</h3>
-        <ul>
-            <li>Mosquitoes cause at least 2.7 million deaths every year</li>
-            <li>About 500 million cases of mosquito-borne diseases occur annually</li>
-            <li>90% of mosquito-borne illnesses occur in Africa</li>
-        </ul>
+        <button class="back-btn" onclick="closeProject()">← Back</button>
+        <h1>Hackathon – The Mosquito Guard</h1>
+
+        <h3>First Place Winner</h3>
+
+        <p><h3>Description:</h3> A low-cost, battery-powered ESP32 sensor system that monitors environmental conditions (temperature, humidity) made for communities heavily impacted by mosquito-borne diseases.</p>
+        
+
+        <h3>Problem</h3>
+        <p>Communities in mosquito-prone areas lacked affordable, real-time monitoring tools to identify breeding hotspots. Manual surveys were slow, resource-intensive, and couldn't provide the timely data needed for effective intervention.</p>
+        
+        <h3>Impact</h3>
+        <p>Mosquitoes are more than just a nuisance—they pose serious health risks by spreading diseases such as malaria, dengue, and Zika. Identifying areas with high mosquito activity is crucial to preventing bites, reducing disease transmission, and protecting communities. Our Mosquito Guard system detects and maps mosquito hotspots, enabling targeted interventions and smarter prevention strategies.</p>
+
+        
         <h3>Features</h3>
         <ul>
-            <li>$30 Build that targets real time mosquito habitat detection.</li>
+            <li>$30 Build that targets real-time mosquito habitat detection</li>
             <li>Accurately detects areas favorable for mosquito breeding</li>
             <li>Python-based algorithms</li>
         </ul>
@@ -551,46 +593,762 @@
             <li>Python</li>
             <li>ESP32 + Sensors: DHT22/BME280 for temp & humidity</li>
             <li>Website + Data Analysis</li>
+        </ul>
+        
+        
 
-        </ul>
-        <h3>Impact</h3>
-        <ul>
-            <li>Mosquitoes are more than just a nuisance—they pose serious health risks by spreading diseases such as malaria, dengue, and Zika. Identifying areas with high mosquito activity is crucial to preventing bites, reducing disease transmission, and protecting communities. Our Mosquito Guard system detects and maps mosquito hotspots, enabling targeted interventions and smarter prevention strategies.</li>
-        </ul>
+        <div class="process-section">
+            <h3>Research & Planning</h3>
+            <p>We researched mosquito breeding conditions and identified key environmental factors: temperature (25-30°C) and humidity (above 60%) create ideal breeding conditions. We mapped out sensor placement strategies and data collection intervals.</p>
+            <ul class="process-steps">
+                <li>Studied mosquito lifecycle and breeding patterns</li>
+                <li>Identified critical environmental thresholds</li>
+                <li>Designed low-power sensor network architecture</li>
+                <li>Planned data visualization dashboard</li>
+            </ul>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="https://raw.githubusercontent.com/notskillled/atharva_website/main/assets/intialresearch.planning.jpeg" alt="Research notes and diagrams">
+                    <span>Initial research and planning sketches</span>
+                </div>
+                <div class="process-image">
+                    <img src="https://raw.githubusercontent.com/notskillled/atharva_website/main/assets/Mosquito.circuit.schematic.jpeg" alt="Circuit schematic">
+                    <span>ESP32 sensor circuit design</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Design & Prototyping</h3>
+            <p>Created circuit designs for the ESP32 sensor nodes with battery optimization. Developed algorithms to analyze environmental data and predict breeding risk levels.</p>
+            <ul class="process-steps">
+                <li>Designed weatherproof sensor enclosures</li>
+                <li>Prototyped power management system for extended battery life</li>
+                <li>Built initial sensor calibration routines</li>
+                <li>Created risk assessment algorithm</li>
+            </ul>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="https://raw.githubusercontent.com/notskillled/atharva_website/main/assets/Prototype%201.jpeg" alt="First prototype">
+                    <span>Initial Sensor Prototype</span>
+                </div>
+                <div class="process-image">
+                    <img src="https://raw.githubusercontent.com/notskillled/atharva_website/main/assets/iso.mosquito.enclousure.png" alt="3D model of enclosure">
+                    <span>Simple enclosure CAD design</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Build & Implementation</h3>
+            <p>Assembled and programmed multiple sensor units. Implemented wireless data transmission and built a web dashboard for real-time monitoring and alerts.</p>
+            <ul class="process-steps">
+                <li>Connected and assembled 5 sensor units</li>
+                <li>Programmed ESP32 firmware for data collection</li>
+                <li>Set up WiFi-based data transmission</li>
+                <li>Developed web interface for data visualization</li>
+            </ul>
+            <div class="process-images">
+            
+                <div class="process-image">
+                    <img src="https://raw.githubusercontent.com/notskillled/atharva_website/main/assets/Final%20Prototype%20With%20Simple%20box.jpeg" alt="Completed sensor">
+                    <span>Finished sensor unit with enclosure</span>
+                </div>
+                <div class="process-image">
+                    <img src="https://raw.githubusercontent.com/notskillled/atharva_website/main/assets/Mosquito%20Guard%20Dashboard.jpeg" alt="Web dashboard">
+                    <span>Real-time monitoring dashboard</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3> Challenges </h3>
+            <p>We struggled a lot of time management, presenting our work to the Hackathon Judges, and struggled a lot to pull data from the sensors. I think from the future we should create a time schedule that allows us to make sure we are on track for projects that are tight on time. </p>
+        </div> 
+
+        <div class="process-section">
+            <h3>Results & Learnings </h3>
+            <p>Successfully created a working prototype for under $30 per unit. The system accurately identified high-risk areas 85% of the time. Learned valuable lessons about power management, sensor calibration, and the importance of user-friendly data presentation for non-technical stakeholders.</p>
+        </div>
     </div>
 </div>
 
 <div id="wandr-detail" class="project-detail">
-    <button class="back-btn" onclick="closeProject()">← Back</button>
     <div class="project-detail-content">
-        <h1>Wandr – Drone Swarm System</h1>
-        <p><strong>Description:</strong> Drone swarm system for ML-enhanced infrared disaster response.</p>
+        <button class="back-btn" onclick="closeProject()">← Back</button>
+        <h1>Wandr – DECA EIB Business Plan</h1>
+        <p><h3>Description:</h3> For DECA's Entrepreneurship Innovation Business (EIB) competition, my partner and I developed a comprehensive 20-page business plan for Wandr, a smart travel planning app that creates full itineraries based on user preferences and adjusts plans in real-time. This project involved extensive market research, financial modeling, competitive analysis, and strategic planning to address one of the biggest issues in travel today: planning.</p>
+
+        <h3>Executive Summary</h3>
+        <p>"We're building the first adaptive travel platform - a smart planner that doesn't just plan your trip, but travels with you." Unlike static tools like TripAdvisor or Booking.com, our app dynamically updates itineraries in real-time, even offline. It personalizes every trip based on user preferences, allows group collaboration, and automatically replans around delays, weather, or cancellations.</p>
+
+        <h3>The Problem We're Solving</h3>
+        <ul>
+            <li>78% of travelers report planning-related anxiety</li>
+            <li>65% abandon detailed planning due to time constraints</li>
+            <li>Trip plans feel messy across emails, screenshots, and multiple apps</li>
+            <li>Struggle to reorganize when timing changes (delays, weather, closures)</li>
+            <li>Group trips fail due to coordination issues across multiple platforms</li>
+        </ul>
+
+        <div class="process-section">
+            <h3>Customer Segments & Market Research</h3>
+            <p>Through extensive research, we identified three primary customer segments within the U.S. travel market where mobile and app-based planning is firmly established (85% of travelers use smartphones during trips).</p>
+            <ul class="process-steps">
+                <li><strong>Flexible Leisure Travelers (ages 20-40):</strong> Couples and solo travelers taking 2-6 trips/year, booking with OTAs, following travel social media, open to last-minute changes</li>
+                <li><strong>Road-Trippers & Adventure Travelers:</strong> U.S. travelers, van life explorers, spontaneous planners needing offline functionality and dynamic rerouting</li>
+                <li><strong>Family Planners:</strong> Parents managing complex itineraries with kids (Disney trips, national parks) who value backup plans and stress-free coordination (willingness to pay: HIGH at $10-15/month)</li>
+            </ul>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="https://raw.githubusercontent.com/notskillled/atharva_website/main/assets/WhatsApp%20Image%202026-01-02%20at%2012.13.52.jpeg" alt="Customer segment analysis">
+                    <span>Three primary customer segments identified</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Unique Value Proposition & Competitive Advantages</h3>
+            <p>Wandr has two deeply differentiated competitive advantages that address core shortcomings of existing travel platforms:</p>
+            
+            <p><strong>1. Algorithm-Driven Dynamic Itinerary Planning:</strong></p>
+            <ul class="process-steps">
+                <li>Constructs cohesive, detailed itineraries accounting for budget, time, group size, and preferences</li>
+                <li>Real-time recalculation when conditions change (weather, delays, closures)</li>
+                <li>Persistent preference logic that learns from past trips and feedback</li>
+                <li>Eliminates manual reorganization across multiple tools</li>
+            </ul>
+
+            <p><strong>2. Unified Collaboration-Centered Platform:</strong></p>
+            <ul class="process-steps">
+                <li>Addresses fragmentation of group travel planning</li>
+                <li>Built-in chat, voting, cost-splitting, and shared itinerary editing</li>
+                <li>Eliminates need for messaging apps, shared docs, spreadsheets, and payment tools</li>
+                <li>Creates network effects - as more users collaborate, platform becomes more central</li>
+            </ul>
+
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="https://raw.githubusercontent.com/notskillled/atharva_website/main/assets/problem.jpeg" alt="Competitive analysis">
+                    <span>Wandr vs. competitors feature comparison</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Revenue Model & Financial Projections</h3>
+            <p>Developed a multi-stream revenue model with realistic projections based on market analysis and industry benchmarks.</p>
+            
+            <p><strong>Revenue Streams (Ranked by Importance):</strong></p>
+            <ul class="process-steps">
+                <li><strong>1. Investments:</strong> Early-stage funding for app development and growth (not recurring)</li>
+                <li><strong>2. Ads/Sponsorships:</strong> Hotels, restaurants, small businesses can be featured (builds credibility); long-term partnerships with travel companies, airlines, credit card brands</li>
+                <li><strong>3. Affiliate Commissions:</strong> 4-8% average commission on bookings (hotels via Expedia/Booking.com at 7%, activities, restaurants)</li>
+                <li><strong>4. Premium Subscriptions:</strong> $16/month or $145/year for Pro features</li>
+            </ul>
+
+            <p><strong>Pricing Strategy:</strong></p>
+            <ul class="process-steps">
+                <li><strong>Basic (Free):</strong> Ads, 5-15% discounts at limited places (increases over time), no health app integration</li>
+                <li><strong>Pro ($16/month or $145/year):</strong> No ads, 18-30% discounts at many more places, health app/Apple Watch/Samsung Watch integration for activity planning</li>
+            </ul>
+
+            <p><strong>Year 1 Financial Projections:</strong></p>
+            <ul class="process-steps">
+                <li><strong>Target Users:</strong> 50,000 total users (13% converting to Pro = 6,500 Pro users)</li>
+                <li><strong>Total Year 1 Revenue:</strong> ~$625,000 (Pro subscriptions, local business listings, booking commissions, ads, affiliate)</li>
+                <li><strong>Total Year 1 Expenses:</strong> ~$868,000 (salaries, marketing, hosting, legal, distribution costs)</li>
+                <li><strong>Net Profit Year 1:</strong> -$243,000 (break-even projected Month 18 with 12,000+ active users)</li>
+                <li><strong>Monthly Break-Even:</strong> Achieved in November of Year 1 with positive cash flow</li>
+            </ul>
+
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="https://raw.githubusercontent.com/notskillled/atharva_website/main/assets/cost%20structure.jpeg" alt="Revenue streams">
+                    <span>Year 1 revenue streams breakdown</span>
+                </div>
+                <div class="process-image">
+                    <img src="https://raw.githubusercontent.com/notskillled/atharva_website/main/assets/year%20one%20projected%20costs.jpeg" alt="Financial projections table">
+                    <span>Detailed monthly financial projections</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Cost Structure & Operating Expenses</h3>
+            <p>Detailed breakdown of how capital would be allocated across different business functions:</p>
+            
+            <p><strong>Monthly Operating Costs (Year 1 Average):</strong></p>
+            <ul class="process-steps">
+                <li><strong>HR Costs:</strong> $41,000-47,000/month (Founders, Customer Service, Marketing Team, Maintenance Engineers, Business Development Managers)</li>
+                <li><strong>Marketing (CAC Costs):</strong> $13,000-19,400/month (Paid ads, SEO, loyalty rewards, sponsorships)</li>
+                <li><strong>Distribution Costs:</strong> Payment processing (3%), App Store fees (30% first year, 15% after), Google Play fees (15%)</li>
+                <li><strong>Operating Costs:</strong> $950-1,400/month (Server hosting, software tools, insurance, website hosting, legal maintenance)</li>
+                <li><strong>Production Costs:</strong> $350-1,850/month (AI API usage, server and database)</li>
+            </ul>
+
+            <p><strong>One-Time Startup Costs:</strong></p>
+            <ul class="process-steps">
+                <li>LLC Formation: $1,000</li>
+                <li>Terms of Service/Privacy Policy: $1,000</li>
+                <li>Business Contracts: $1,500</li>
+                <li>Google Play Store Registration: $25</li>
+                <li><strong>Total Startup Investment:</strong> $3,525</li>
+            </ul>
+        </div>
+
+        <div class="process-section">
+            <h3>Go-to-Market Strategy & Customer Acquisition</h3>
+            <p>Developed a comprehensive five-channel strategy to reach U.S. travelers efficiently:</p>
+            
+            <ul class="process-steps">
+                <li><strong>App Store Optimization (ASO/PSO):</strong> iOS: 6.6% tap-through rate, $4-6 CPI with Apple Search Ads; Android: $3.28 CPI, 27-30% conversion rate via Google App Campaigns</li>
+                <li><strong>Social Media Advertising:</strong> TikTok, Instagram, YouTube targeting ages 20-40; 71% of travelers influenced by social media when choosing destinations; 61% use social media for travel inspiration</li>
+                <li><strong>Influencer Partnerships:</strong> Micro and mid-tier travel influencers (solo, couples, road-trippers); 49% of consumers rely on influencer recommendations for travel decisions</li>
+                <li><strong>SEO & Content Marketing:</strong> 81% of travelers begin trip planning on Google; keyword-optimized blogs, destination guides, AI-planning tutorials for long-term organic growth</li>
+                <li><strong>Referral & Loyalty Programs:</strong> Travel credits, free premium trials, discounts for referrals; 77% of app downloads driven by friend recommendations</li>
+            </ul>
+
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="https://raw.githubusercontent.com/notskillled/atharva_website/main/assets/channels.jpeg" alt="Marketing channel strategy">
+                    <span>Five-channel customer acquisition strategy + Customer acquisition cost analysis by channel </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Key Performance Indicators (KPIs)</h3>
+            <p>Established four primary KPIs to measure business progress, product effectiveness, and platform success:</p>
+            
+            <ul class="process-steps">
+                <li><strong>User Engagement:</strong> Active usage time, visiting frequency, core user actions (trips created, itinerary changes, backup plans selected)</li>
+                <li><strong>Customer Satisfaction:</strong> In-app feedback, app store reviews, Net Promoter Score (NPS), support interactions</li>
+                <li><strong>Collaboration Adoption:</strong> Percentage of collaborative trips, average collaborators per trip, frequency of shared itinerary updates (measures product differentiation)</li>
+                <li><strong>Annual Revenue:</strong> Yearly income tracking subscriptions, premium features, affiliate commissions against projections</li>
+            </ul>
+        </div>
+
+        <div class="process-section">
+            <h3>Use Cases & Real-World Scenarios</h3>
+            <p>Developed detailed use cases demonstrating Wandr's value across different traveler types:</p>
+            
+            <ul class="process-steps">
+                <li><strong>Last-Minute Traveler:</strong> Solo traveler lands in Rome with no plan, fills out preference survey, instantly gets full itinerary with restaurant reservations, cultural spots, and total trip cost</li>
+                <li><strong>The Group Trip:</strong> Four college friends planning Hawaii trip - all use one app for chat, voting, shared payments, balanced preferences instead of texts, Google Docs, Venmo, and multiple sites</li>
+                <li><strong>Smart Return Traveler:</strong> User's past Japan trip ratings (loved cultural tours, disliked nightlife) automatically inform Thailand trip planning without re-survey</li>
+                <li><strong>International Planner:</strong> Couple planning Europe trip - app checks visa requirements, provides application links, stores passport/insurance details securely</li>
+            </ul>
+        </div>
+
+        <div class="process-section">
+            <h3>Creating the DECA 20-Page Business Plan</h3>
+            <p>Followed a structured 6-week timeline to develop competition-ready business plan:</p>
+            
+            <ul class="process-steps">
+                <li><strong>Week 1:</strong> Problems, customer segments, solutions, competitive advantages</li>
+                <li><strong>Week 2:</strong> Unique value proposition, distribution channels, revenue streams, cost structure overview</li>
+                <li><strong>Week 3:</strong> Detailed cost structure and comprehensive financial projections</li>
+                <li><strong>Week 4:</strong> Key performance metrics, conclusions, bibliography</li>
+                <li><strong>Week 5:</strong> Clean up presentation materials and finalize documentation</li>
+                <li><strong>Weeks 6-Jan:</strong> Presentation preparation and judge Q&A practice</li>
+            </ul>
+
+            <p><strong>20-Page Plan Sections:</strong></p>
+            <ul class="process-steps">
+                <li>Executive Summary with key business metrics</li>
+                <li>Unique Value Proposition (3 main differentiators)</li>
+                <li>Customer Segments (demographic and geographic analysis)</li>
+                <li>Channel Strategy (5 acquisition pathways)</li>
+                <li>Revenue Streams and Pricing Strategy</li>
+                <li>Cost Structure (detailed expense breakdown)</li>
+                <li>Competitive Advantages (2 core differentiators)</li>
+                <li>Key Performance Indicators</li>
+                <li>Financial Projections (monthly Year 1 breakdown)</li>
+                <li>Use Cases and Market Validation</li>
+            </ul>
+
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="https://raw.githubusercontent.com/notskillled/atharva_website/main/assets/cover.jpeg" alt="Business plan document">
+                    <span>Completed 20-page DECA business plan</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/presentation-deck.jpg" alt="Presentation materials">
+                    <span>Pitch presentation for judges</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Research & Data Sources</h3>
+            <p>Grounded all projections and claims in credible industry data and research:</p>
+            <ul class="process-steps">
+                <li>Salary benchmarks from Indeed and Startup.jobs</li>
+                <li>App Store economics from Apple Developer documentation</li>
+                <li>Advertising costs from WordStream, TikTok Ads, YouTube benchmarks</li>
+                <li>Cloud hosting comparisons (AWS vs. DigitalOcean)</li>
+                <li>Apple Ads performance data from AppTweak</li>
+                <li>Travel industry statistics on mobile usage and social media influence</li>
+                <li>U.S. flight on-time/cancellation rates validating need for dynamic replanning</li>
+            </ul>
+        </div>
+
+        <div class="process-section">
+            <h3>Skills Developed & Key Learnings</h3>
+            <p>Through this comprehensive business planning process, I developed critical entrepreneurial and analytical skills:</p>
+            
+            <ul class="process-steps">
+                <li><strong>Financial Modeling:</strong> Building detailed pro forma statements, calculating unit economics, understanding break-even analysis</li>
+                <li><strong>Market Research:</strong> Survey design, competitive analysis, identifying market gaps and opportunities</li>
+                <li><strong>Strategic Thinking:</strong> Defining value propositions, establishing competitive moats, planning customer acquisition strategies</li>
+                <li><strong>Business Communication:</strong> Presenting complex financial and strategic concepts clearly and persuasively</li>
+                <li><strong>Problem-Solving:</strong> Addressing judge questions about scalability, market assumptions, and risk mitigation</li>
+                <li><strong>Data Analysis:</strong> Working with industry benchmarks, conversion rates, and customer acquisition costs</li>
+            </ul>
+        </div>
+
+        <div class="process-section">
+            <h3>Results & Impact</h3>
+            <p>Successfully completed a competition-ready business plan that demonstrates deep understanding of entrepreneurship, market dynamics, and financial planning. The Wandr project taught me how to:</p>
+            <ul class="process-steps">
+                <li>Think like an entrepreneur by identifying real market problems and viable solutions</li>
+                <li>Validate business ideas through customer research and competitive analysis</li>
+                <li>Build realistic financial models that account for multiple revenue streams and cost structures</li>
+                <li>Develop go-to-market strategies based on data-driven channel selection</li>
+                <li>Communicate business vision effectively through structured documentation and presentations</li>
+            </ul>
+            <p>These skills are directly applicable to future ventures, startup opportunities, and leadership roles in any business environment.</p>
+        </div>
+    </div>
+</div>
+
+<div id="puzzle-box-detail" class="project-detail">
+    <div class="project-detail-content">
+        <button class="back-btn" onclick="closeProject()">← Back</button>
+        <h1>Puzzle Box – High-Speed 3D Printer</h1>
+        <p><strong>Description:</strong> A custom-built high-acceleration 3D printer controlled by a Raspberry Pi cluster, designed to achieve faster print speeds while maintaining quality through distributed processing.</p>
 
         <h3>Features</h3>
         <ul>
-            <li>Swarm coordination</li>
-            <li>Infrared detection</li>
-            <li>ML algorithms</li>
+            <li>Raspberry Pi cluster for distributed print processing</li>
+            <li>High-acceleration motion system (up to 10,000 mm/s²)</li>
+            <li>Custom firmware for parallel computation</li>
+            <li>Advanced cooling system for high-speed printing</li>
         </ul>
 
         <h3>Tech Stack</h3>
         <ul>
-            <li>Python</li>
-            <li>Machine Learning</li>
-            <li>Drones / Robotics</li>
+            <li>Raspberry Pi 4 cluster (4 nodes)</li>
+            <li>Python for cluster coordination</li>
+            <li>Modified Klipper firmware</li>
+            <li>Custom linear rails and motion components</li>
         </ul>
+
+        <div class="process-section">
+            <h3>Problem</h3>
+            <p>Standard 3D printers are limited by single-board processing power, restricting print speeds and complex calculations. High-acceleration movements require real-time processing that most controllers can't handle, leading to quality issues at high speeds.</p>
+        </div>
+
+        <div class="process-section">
+            <h3>Research & Planning</h3>
+            <p>Researched distributed computing approaches and analyzed bottlenecks in 3D printing pipelines. Studied high-speed motion control systems and print quality factors.</p>
+            <ul class="process-steps">
+                <li>Analyzed existing 3D printer architectures</li>
+                <li>Researched cluster computing for real-time applications</li>
+                <li>Studied motion control algorithms and acceleration limits</li>
+                <li>Planned workload distribution across Pi cluster</li>
+            </ul>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/printer-research.jpg" alt="Research notes">
+                    <span>Motion system research and calculations</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/cluster-diagram.jpg" alt="Cluster architecture">
+                    <span>Raspberry Pi cluster architecture plan</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Design & CAD Modeling</h3>
+            <p>Designed custom frame and motion system in CAD. Created mounting solutions for the Pi cluster and optimized for rigidity to handle high accelerations.</p>
+            <ul class="process-steps">
+                <li>Modeled entire printer frame in Fusion 360</li>
+                <li>Designed custom toolhead for weight reduction</li>
+                <li>Created Pi cluster mounting and cooling system</li>
+                <li>Simulated stress points and reinforced structure</li>
+            </ul>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/printer-cad-full.jpg" alt="Complete CAD model">
+                    <span>Full printer CAD assembly</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/toolhead-cad.jpg" alt="Toolhead design">
+                    <span>Lightweight toolhead design</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/frame-cad.jpg" alt="Frame structure">
+                    <span>Reinforced frame structure</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Build & Assembly</h3>
+            <p>Assembled the mechanical frame, wired the electronics, and set up the Raspberry Pi cluster with custom networking. Calibrated the motion system for precise high-speed movements.</p>
+            <ul class="process-steps">
+                <li>Built aluminum extrusion frame with linear rails</li>
+                <li>Assembled and wired all electronics and motors</li>
+                <li>Configured Pi cluster with shared memory architecture</li>
+                <li>Installed modified Klipper firmware</li>
+            </ul>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/frame-assembly.jpg" alt="Frame construction">
+                    <span>Frame assembly in progress</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/pi-cluster.jpg" alt="Raspberry Pi cluster">
+                    <span>Raspberry Pi cluster setup</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/wiring.jpg" alt="Electronics wiring">
+                    <span>Electronics and wiring</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/printer-complete.jpg" alt="Completed printer">
+                    <span>Fully assembled printer</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Testing & Calibration</h3>
+            <p>Performed extensive testing at various speeds and accelerations. Tuned motion parameters and validated print quality against standard printers.</p>
+            <ul class="process-steps">
+                <li>Calibrated steps/mm and acceleration limits</li>
+                <li>Tested at incrementing speeds up to target acceleration</li>
+                <li>Compared print quality at high vs. standard speeds</li>
+                <li>Optimized cluster workload distribution</li>
+            </ul>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/test-prints.jpg" alt="Test print samples">
+                    <span>Speed test calibration prints</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/quality-comparison.jpg" alt="Print quality comparison">
+                    <span>Quality comparison: high-speed vs. standard</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Results & Learnings</h3>
+            <p>Achieved 3x faster print times compared to standard printers while maintaining comparable quality. The Pi cluster successfully handled real-time motion calculations. Learned about distributed systems, motion control, and the mechanical engineering challenges of high-speed 3D printing.</p>
+        </div>
     </div>
 </div>
+
+<div id="learning-cad-detail" class="project-detail">
+    <div class="project-detail-content">
+        <button class="back-btn" onclick="closeProject()">← Back</button>
+        <h1>Learning CAD – Design Journey</h1>
+        <p><strong>Description:</strong> My progression through learning Computer-Aided Design (CAD), from basic sketches to complex assemblies, documenting projects and skills developed along the way.</p>
+
+        <h3>Skills Developed</h3>
+        <ul>
+            <li>3D modeling and part design</li>
+            <li>Assembly constraints and motion simulation</li>
+            <li>Technical drawings and dimensioning</li>
+            <li>Design for manufacturing (DFM) principles</li>
+            <li>Parametric modeling for iterative design</li>
+        </ul>
+
+        <h3>Software & Tools</h3>
+        <ul>
+            <li>Fusion 360 (primary CAD software)</li>
+            <li>Onshape for collaboration</li>
+            <li>FreeCAD for open-source projects</li>
+            <li>Blender for rendering and visualization</li>
+        </ul>
+
+        <div class="process-section">
+            <h3>Starting Point</h3>
+            <p>Began with basic shapes and simple parts, learning fundamental CAD concepts like sketching, constraints, and extrusions. Early projects focused on understanding the tools and interface.</p>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/first-sketch.jpg" alt="Early sketch">
+                    <span>My first CAD sketch</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/simple-parts.jpg" alt="Basic parts">
+                    <span>Early simple part designs</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Building Fundamentals</h3>
+            <p>Progressed to more complex shapes and learned about parametric design. Started creating functional parts that could actually be 3D printed or manufactured.</p>
+            <ul class="process-steps">
+                <li>Learned constraint-based sketching</li>
+                <li>Mastered extrudes, revolves, and lofts</li>
+                <li>Practiced creating assemblies with multiple parts</li>
+                <li>Studied design intent and parametric relationships</li>
+            </ul>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/parametric-model.jpg" alt="Parametric design">
+                    <span>Parametric design with dimensions</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/first-assembly.jpg" alt="Assembly">
+                    <span>First multi-part assembly</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/functional-part.jpg" alt="Functional design">
+                    <span>Functional part ready for printing</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Practical Projects</h3>
+            <p>Applied CAD skills to real-world projects, designing parts for robotics competitions and personal builds. Learned to iterate designs based on testing and feedback.</p>
+            <ul class="process-steps">
+                <li>Designed custom brackets and mounts for robots</li>
+                <li>Created replacement parts for broken components</li>
+                <li>Modeled complete mechanisms with moving parts</li>
+                <li>Learned tolerances and fit considerations</li>
+            </ul>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/robot-parts.jpg" alt="Robot components">
+                    <span>Robot chassis components</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/mechanism.jpg" alt="Mechanical assembly">
+                    <span>Complex mechanism with motion</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/print-to-cad.jpg" alt="CAD to physical">
+                    <span>From CAD model to 3D printed part</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Advanced Techniques</h3>
+            <p>Explored advanced features like surfacing, sheet metal design, and simulation. Started creating renderings and technical drawings for documentation and presentations.</p>
+            <ul class="process-steps">
+                <li>Learned surface modeling for complex curves</li>
+                <li>Created technical drawings with GD&T</li>
+                <li>Used FEA for stress analysis</li>
+                <li>Developed rendering skills for presentations</li>
+            </ul>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/surface-model.jpg" alt="Surface modeling">
+                    <span>Complex surface modeling</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/technical-drawing.jpg" alt="Engineering drawing">
+                    <span>Technical drawing with dimensions</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/rendering.jpg" alt="Photorealistic render">
+                    <span>Photorealistic rendering</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Current Work & Reflections</h3>
+            <p>Now comfortable designing complex assemblies and applying CAD to solve real engineering problems. CAD has become an essential tool in my robotics and engineering projects, enabling rapid prototyping and iteration.</p>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/recent-project.jpg" alt="Recent CAD work">
+                    <span>Recent complex project</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/portfolio-models.jpg" alt="CAD portfolio">
+                    <span>Collection of CAD models</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="robotics-detail" class="project-detail">
+    <div class="project-detail-content">
+        <button class="back-btn" onclick="closeProject()">← Back</button>
+        <h1>My Robotics Journey</h1>
+        <p><strong>Description:</strong> My progression through learning Computer-Aided Design (CAD), from basic sketches to complex assemblies, documenting projects and skills developed along the way.</p>
+
+        <h3>Skills Developed</h3>
+        <ul>
+            <li>3D modeling and part design</li>
+            <li>Assembly constraints and motion simulation</li>
+            <li>Technical drawings and dimensioning</li>
+            <li>Design for manufacturing (DFM) principles</li>
+            <li>Parametric modeling for iterative design</li>
+        </ul>
+
+        <h3>Software & Tools</h3>
+        <ul>
+            <li>Fusion 360 (primary CAD software)</li>
+            <li>Onshape for collaboration</li>
+            <li>FreeCAD for open-source projects</li>
+            <li>Blender for rendering and visualization</li>
+        </ul>
+
+        <div class="process-section">
+            <h3>Starting Point</h3>
+            <p>Began with basic shapes and simple parts, learning fundamental CAD concepts like sketching, constraints, and extrusions. Early projects focused on understanding the tools and interface.</p>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/first-sketch.jpg" alt="Early sketch">
+                    <span>My first CAD sketch</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/simple-parts.jpg" alt="Basic parts">
+                    <span>Early simple part designs</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Building Fundamentals</h3>
+            <p>Progressed to more complex shapes and learned about parametric design. Started creating functional parts that could actually be 3D printed or manufactured.</p>
+            <ul class="process-steps">
+                <li>Learned constraint-based sketching</li>
+                <li>Mastered extrudes, revolves, and lofts</li>
+                <li>Practiced creating assemblies with multiple parts</li>
+                <li>Studied design intent and parametric relationships</li>
+            </ul>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/parametric-model.jpg" alt="Parametric design">
+                    <span>Parametric design with dimensions</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/first-assembly.jpg" alt="Assembly">
+                    <span>First multi-part assembly</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/functional-part.jpg" alt="Functional design">
+                    <span>Functional part ready for printing</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Practical Projects</h3>
+            <p>Applied CAD skills to real-world projects, designing parts for robotics competitions and personal builds. Learned to iterate designs based on testing and feedback.</p>
+            <ul class="process-steps">
+                <li>Designed custom brackets and mounts for robots</li>
+                <li>Created replacement parts for broken components</li>
+                <li>Modeled complete mechanisms with moving parts</li>
+                <li>Learned tolerances and fit considerations</li>
+            </ul>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/robot-parts.jpg" alt="Robot components">
+                    <span>Robot chassis components</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/mechanism.jpg" alt="Mechanical assembly">
+                    <span>Complex mechanism with motion</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/print-to-cad.jpg" alt="CAD to physical">
+                    <span>From CAD model to 3D printed part</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Advanced Techniques</h3>
+            <p>Explored advanced features like surfacing, sheet metal design, and simulation. Started creating renderings and technical drawings for documentation and presentations.</p>
+            <ul class="process-steps">
+                <li>Learned surface modeling for complex curves</li>
+                <li>Created technical drawings with GD&T</li>
+                <li>Used FEA for stress analysis</li>
+                <li>Developed rendering skills for presentations</li>
+            </ul>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/surface-model.jpg" alt="Surface modeling">
+                    <span>Complex surface modeling</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/technical-drawing.jpg" alt="Engineering drawing">
+                    <span>Technical drawing with dimensions</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/rendering.jpg" alt="Photorealistic render">
+                    <span>Photorealistic rendering</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section">
+            <h3>Current Work & Reflections</h3>
+            <p>Now comfortable designing complex assemblies and applying CAD to solve real engineering problems. CAD has become an essential tool in my robotics and engineering projects, enabling rapid prototyping and iteration.</p>
+            <div class="process-images">
+                <div class="process-image">
+                    <img src="images/recent-project.jpg" alt="Recent CAD work">
+                    <span>Recent complex project</span>
+                </div>
+                <div class="process-image">
+                    <img src="images/portfolio-models.jpg" alt="CAD portfolio">
+                    <span>Collection of CAD models</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    // Email link handler
+    const emailLink = document.getElementById("email-link");
+    emailLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        const email = "tekco.305@gmail.com";
+        navigator.clipboard.writeText(email).then(() => {
+            emailLink.style.color = "#16a34a";
+            setTimeout(() => {
+                emailLink.style.color = "";
+            }, 1200);
+        });
+    });
+
+    // Discord link handler
+    const discordLink = document.getElementById("discord-link");
+    discordLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        const discord = "notskillled";
+        navigator.clipboard.writeText(discord).then(() => {
+            discordLink.style.color = "#16a34a";
+            setTimeout(() => {
+                discordLink.style.color = "";
+            }, 1200);
+        });
+    });
+
     // Open project
     const projects = document.querySelectorAll(".projects-grid .project-card");
     projects.forEach((project) => {
         project.addEventListener("click", () => {
-            const projectName = project.querySelector("h3").textContent.toLowerCase().replace(/\s/g, "-");
+            const projectName = project.querySelector("h3").textContent.toLowerCase().replace(/\s+/g, "-");
             const detail = document.getElementById(`${projectName}-detail`);
             if(detail){
                 detail.classList.add("active");
-                document.body.style.overflow = "hidden"; // prevent background scroll
+                document.body.style.overflow = "hidden";
             }
         });
     });
@@ -605,84 +1363,50 @@
 
     // ESC key closes project
     document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeProject();
+        if (e.key === "Escape") {
+            closeProject();
+            closeLightbox();
+        }
+    });
+
+    // Image Lightbox functionality
+    function openLightbox(imgSrc, caption) {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        
+        lightboxImg.src = imgSrc;
+        lightboxCaption.textContent = caption;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        const lightbox = document.getElementById('image-lightbox');
+        lightbox.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Add click handlers to all process images
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.process-image')) {
+            const processImage = e.target.closest('.process-image');
+            const img = processImage.querySelector('img');
+            const caption = processImage.querySelector('span');
+            
+            if (img && caption) {
+                openLightbox(img.src, caption.textContent);
+            }
+        }
+    });
+
+    // Close lightbox when clicking on background
+    document.getElementById('image-lightbox').addEventListener('click', (e) => {
+        if (e.target.id === 'image-lightbox') {
+            closeLightbox();
+        }
     });
 </script>
-    <div id="hackathon-detail" class="project-detail">
-    <div class="project-detail-content">
-        <button class="back-btn" onclick="closeProject()">← Back</button>
-
-        <h1>Autonomous Racing Drone Controller</h1>
-        <p>
-            A motion controller designed for high-speed autonomous racing drones
-            with automatic PID calibration.
-        </p>
-
-        <!-- PROBLEM -->
-        <div class="process-section">
-            <h3>Problem</h3>
-            <p>
-                Manual PID tuning was slow and inconsistent, making rapid testing
-                and iteration difficult during competitions.
-            </p>
-        </div>
-
-        <!-- DESIGN -->
-        <div class="process-section">
-            <h3>Design & Planning</h3>
-            <ul class="process-steps">
-                <li>Researched existing PID tuning methods</li>
-                <li>Designed calibration routine for STM32</li>
-                <li>Defined performance metrics (stability & response time)</li>
-            </ul>
-
-            <div class="process-images">
-                <div class="process-image">
-                    <img src="images/pid-diagram.png" alt="PID control diagram">
-                    <span>Initial PID control model</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- BUILD -->
-        <div class="process-section">
-            <h3>Build & Implementation</h3>
-            <p>
-                Implemented the control loop in Python with real-time sensor feedback.
-            </p>
-
-            <div class="process-images">
-                <div class="process-image">
-                    <img src="images/code-snippet.png" alt="Controller code">
-                    <span>Control loop implementation</span>
-                </div>
-                <div class="process-image">
-                    <img src="images/drone-build.jpg" alt="Drone build">
-                    <span>Drone hardware integration</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- TESTING -->
-        <div class="process-section">
-            <h3>Testing & Iteration</h3>
-            <ul class="process-steps">
-                <li>Bench testing for stability</li>
-                <li>Flight tests with logged telemetry</li>
-                <li>Iterated PID gains based on response curves</li>
-            </ul>
-        </div>
-
-        <!-- RESULT -->
-        <div class="process-section">
-            <h3>Results & Takeaways</h3>
-            <p>
-                Reduced tuning time by ~60% and achieved smoother autonomous flight.
-                Learned how control theory translates to real-world hardware.
-            </p>
-        </div>
-    </div>
-</div>
 
 </body>
 </html>
