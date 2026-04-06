@@ -1340,6 +1340,19 @@
         });
     });
 
+    // LinkedIn link handler
+    const linkedinLink = document.getElementById("linkedin-link");
+    linkedinLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        const linkedin = "www.linkedin.com/in/atharva-amradkar-5350353a4";
+        navigator.clipboard.writeText(linkedin).then(() => {
+            linkedinLink.style.color = "#16a34a";
+            setTimeout(() => {
+                linkedinLink.style.color = "";
+            }, 1200);
+        });
+    });
+
     // Open project
     const projects = document.querySelectorAll(".projects-grid .project-card");
     projects.forEach((project) => {
